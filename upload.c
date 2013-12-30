@@ -78,7 +78,7 @@ void write_chunk(void *args)
 //获取文件块大小  单位B
 long get_chunk_size()
 {
-	return  11; //10KB
+	return  10*1024; //10KB
 }
 
 long get_filesize()

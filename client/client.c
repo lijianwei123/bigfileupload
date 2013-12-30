@@ -22,7 +22,7 @@
 
 
 //定义全局变量
-const char filepath[] =  "test.txt";
+const char filepath[] =  "client.c";
 
 
 void signalHandler(int signalNo)
@@ -310,7 +310,7 @@ void readFileChunkContent(const char * filepath, int i, long *chunks_ptr, char *
 #ifdef DEBUG
 	printf("%s filepath:%s\n", __FUNCTION__, filepath);
 #endif
-	FILE *fp = fopen(filepath, "rb");
+	int fd = open(filepath, O_RDONLY);
 	long start = 0l;
 	long idatanum = 0l;
 	long chunk_size = get_chunk_size();
@@ -318,22 +318,20 @@ void readFileChunkContent(const char * filepath, int i, long *chunks_ptr, char *
 #ifdef DEBUG
 	printf("chunk %d start pos %ld\n", i, start);
 #endif
-	fseek(fp, start, SEEK_SET);
-	start = ftell(fp);
-	if(start == -1) {
+	if(lseek(fd, start, SEEK_SET) < 0) {
 		perror("lseek error");
-		fclose(fp);
+		close(fd);
 		exit(1);
 	}
-	if((idatanum = fread(chunk, 1, chunk_size, fp)) < 0) {
+	if((idatanum = read(fd, chunk, chunk_size)) < 0) {
 		perror("read file error");
-		fclose(fp);
+		close(fd);
 		exit(1);
 	}
 #ifdef DEBUG
 	printf("chunk content:%s\n", chunk);
 #endif
 	//重置文件读写位置
-	fseek(fp, 0, SEEK_SET);
-	fclose(fp);
+	lseek(fd, 0, SEEK_SET);
+	close(fd);
 }

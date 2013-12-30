@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 	}
 
 	//监听
-	if(listen(serverSocket, 50) < 0) {
+	if(listen(serverSocket, 500) < 0) {
 			perror("listen error");
 			exit(EXIT_FAILURE);
 	}

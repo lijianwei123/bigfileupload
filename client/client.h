@@ -1,7 +1,7 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
-#define SERVER_IP "0.0.0.0"
+#define SERVER_IP "168.192.122.31"
 #define SERVER_PORT 9070
 
 //显示命令

@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+//http://www.ibm.com/developerworks/cn/aix/library/au-libev/
+
 #define SERVER_PORT 8080
 int debug = 0;
 

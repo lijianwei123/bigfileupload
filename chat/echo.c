@@ -115,13 +115,13 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	if(listen(sockenlisten, 5) < 0)
+	if(listen(socketlisten, 5) < 0)
 	{
 		fprintf(stderr, "failed to listen to socket");
 		return 1;
 	}
 
-	setsockopt(socklisten, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
+	setsockopt(socketlisten, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
 
 	setnonblock(socketlisten);
 

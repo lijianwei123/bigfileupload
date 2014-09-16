@@ -41,6 +41,10 @@ void read_file()
 		fseek(f, 0, SEEK_SET);
 		data = (char *)malloc(size + 1);
 		fread(data, sizeof(char), size, f);
+
+		if (filedata != NULL)
+			free(filedata);
+
 		filedata = (char *)malloc(size + 1);
 		strcpy(filedata, data);
 		free(data);
@@ -71,10 +75,15 @@ void generic_request_handler(struct evhttp_request *req, void *arg)
 {
 	struct evbuffer *evb = evbuffer_new();
 
-	evbuffer_add_printf(evb, "%s", filedata);
+	char *copy_file_data = NULL;
+	copy_file_data = (char *)malloc(strlen(filedata) + 1);
+	strcpy(copy_file_data, filedata);
+
+
+	evbuffer_add_printf(evb, "%s", copy_file_data);
 	evhttp_send_reply(req, HTTP_OK, "Client", evb);
 	evbuffer_free(evb);
-	free(filedata);
+	free(copy_file_data);
 }
 
 int main(int argc, char *argv[])
@@ -88,7 +97,7 @@ int main(int argc, char *argv[])
 		strcpy(filename, argv[1]);
 		printf("Using %s\n", filename);
 	} else {
-		strcpy(filename, DEFULAT_FILE);
+		strcpy(filename, DEFAULT_FILE);
 	}
 	event_init();
 	load_file();
